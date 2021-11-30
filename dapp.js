@@ -60,19 +60,45 @@ window.addEventListener('load', async function () {
   }
 })
 
-const dropContainer = document.getElementById('right-side');
+var dropzoneId = "right-side";
+const dropContainer = document.getElementById(dropzoneId);
 console.log(typeof dropContainer);
 dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
   evt.preventDefault();
 };
 
 dropContainer.ondrop = function(evt) {
-  // pretty simple -- but not for IE :(
   evt.preventDefault();
   ckInputFile.files = evt.dataTransfer.files;
   handleFile(ckInputFile.files[0]);
 };
 
+
+
+window.addEventListener("dragenter", function(e) {
+  if (e.target.id != dropzoneId) {
+    e.preventDefault();
+    e.dataTransfer.effectAllowed = "none";
+    e.dataTransfer.dropEffect = "none";
+  }
+}, false);
+
+window.addEventListener("dragover", function(e) {
+  if (e.target.id != dropzoneId) {
+    e.preventDefault();
+    e.dataTransfer.effectAllowed = "none";
+    e.dataTransfer.dropEffect = "none";
+  }
+});
+
+window.addEventListener("drop", function(e) {
+  console.log("i´m here");
+  if (e.target.id != dropzoneId) {
+    e.preventDefault();
+    e.dataTransfer.effectAllowed = "none";
+    e.dataTransfer.dropEffect = "none";
+  }
+});
 const ckInputFile = document.getElementById('ck-file');
 ckInputFile.onchange = async (event) => {
   handleFile(event.target.files.item(0));
