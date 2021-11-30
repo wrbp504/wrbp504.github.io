@@ -259,18 +259,19 @@ async function verifyContract() {
   const contractKeeper = await new web3.eth.Contract
     (ckjson.abi, ckjson.networks[networkId].address);
 
-
-
-
-
   try {
     SCResponse = await contractKeeper.methods.getLegalContract("0x" + hash.toString(CryptoJS.enc.Hex)).call();
   } catch (err) {
     account1.innerHTML = "";
-    document.getElementById('ck-add').style.display = "";
+
+    document.getElementById('ck-submit').style.display = "none";
     document.getElementById('ck-submit').style.display = "none";
     document.getElementById('ck-sign').style.display = "none";
     document.getElementById("message-area").innerHTML = getReason(err);
+    
+    if(document.getElementById("message-area").innerHTM.search("Contract does not exist")>0){
+      document.getElementById('ck-add').style.display = "";
+    }
 
     return false;
   }
